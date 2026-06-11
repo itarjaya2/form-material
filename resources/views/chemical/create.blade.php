@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Data Chemical</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header">
+            <h3>Tambah Data Chemical</h3>
+        </div>
+
+        <div class="card-body">
+            <form action="{{ route('chemical.store') }}" method="POST">
+                @csrf
+
+                <div class="mb-3">
+                    <label class="form-label">Nama</label>
+                    <input type="text"
+                           name="nama"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Jenis</label>
+                    <input type="text"
+                           name="jenis"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Material</label>
+                    <input type="text"
+                           name="material"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Panjang</label>
+                        <input type="text"
+                               name="panjang"
+                               class="form-control"
+                               required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Lebar</label>
+                        <input type="text"
+                               name="lebar"
+                               class="form-control"
+                               required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Tinggi</label>
+                        <input type="text"
+                               name="tinggi"
+                               class="form-control"
+                               required>
+                    </div>
+
+                    
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Spesifikasi</label>
+                    <input type="text"
+                           name="spesifikasi"
+                           class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Simpan
+                </button>
+
+                <a href="{{ route('kertas.index') }}"
+                   class="btn btn-secondary">
+                    Kembali
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html> 
