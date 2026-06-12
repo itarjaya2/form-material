@@ -18,9 +18,18 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="mb-0">Data Chemical</h3>
 
+        <div>
+            <button type="button"
+                class="btn btn-success"
+                data-bs-toggle="modal"
+                data-bs-target="#importModal">
+                Import Excel
+            </button>
+    
             <a href="{{ route('chemical.create') }}" class="btn btn-primary">
                 Tambah Data
             </a>
+        </div>
         </div>
 
         <div class="card-body">
@@ -28,29 +37,23 @@
                 <thead class="table-light">
                     <tr>
                         <th>No</th>
-                        <th>Kode</th>
-                        <th>Nama</th>
-                        <th>Jenis</th>
+                        <th>Code</th>
+                        <th>Item</th>
                         <th>Material</th>
-                        <th>Panjang</th>
-                        <th>Lebar</th>
-                        <th>Tinggi</th>
-                        <th>Spesifikasi</th>
-                        <th>Aksi</th>
+                        <th>Specs</th>
+                        <th>Qty</th>
+                        <th width="150">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($chemical as $index => $item)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $item->kode }}</td>
-                            <td>{{ $item->nama }}</td>
-                            <td>{{ $item->jenis }}</td>
+                            <td>{{ $item->code }}</td>
+                            <td>{{ $item->item }}</td>
                             <td>{{ $item->material }}</td>
-                            <td>{{ $item->panjang }}</td>
-                            <td>{{ $item->lebar }}</td>
-                            <td>{{ $item->tinggi }}</td>
-                            <td>{{ $item->spesifikasi }}</td>
+                            <td>{{ $item->specs }}</ttyd>
+                            <td>{{ number_format($item->qty, 0) }}</td>
                             <td>
                                 {{-- <a href="{{ route('kertas.edit', $item->id) }}"
                                    class="btn btn-warning btn-sm">
@@ -74,12 +77,71 @@
                     @empty
                         <tr>
                             <td colspan="9" class="text-center">
-                                Data chemical belum ada.
+                                Data Chemical belum ada.
                             </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+           {{-- modal --}}
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="importModalLabel">
+                    Import Data Corrugated
+                </h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+
+            <form action="{{ route('tinta.import') }}"
+                  method="POST"
+                  enctype="multipart/form-data">
+                @csrf
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="excel" class="form-label">
+                            File Excel
+                        </label>
+
+                        <input type="file"
+                               class="form-control"
+                               id="excel"
+                               name="excel"
+                               accept=".xlsx,.xls,.csv"
+                               required>
+
+                        <small class="text-muted">
+                            Format yang didukung: csv
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Batal
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-success">
+                        Import Data
+                    </button>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>

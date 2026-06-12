@@ -8,89 +8,142 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title>Tinta</title>
+    <title>Data Tinta</title>
   </head>
   <body>
-    {{-- navbar --}}
-     <x-navbar />
+    <x-navbar/>
+    <h1 class="text-center mb-5">Tinta</h1>
+    <div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Data Tinta</h3>
 
-     <div class="container mt-5">
-
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <div class="d-flex justify-content-between mb-3">
-        <h2>Data Tinta</h2>
-
-        {{-- <a href="{{ route('tinta.create') }}" class="btn btn-primary">
-            Tambah Data
-        </a> --}}
-    </div>
-     <div class="text-end mb-3">
+        <div>
+            <button type="button"
+                class="btn btn-success"
+                data-bs-toggle="modal"
+                data-bs-target="#importModal">
+                Import Excel
+            </button>
+    
             <a href="{{ route('tinta.create') }}" class="btn btn-primary">
                 Tambah Data
             </a>
         </div>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>Jenis</th>
-                <th>Material</th>
-                <th>Panjang</th>
-                <th>Lebar</th>
-                <th>Tinggi</th>
-                <th>Spesifikasi</th>
-                <th>Kode</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($tintas as $tinta)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $tinta->nama }}</td>
-                    <td>{{ $tinta->jenis }}</td>
-                    <td>{{ $tinta->material }}</td>
-                    <td>{{ $tinta->panjang }}</td>
-                    <td>{{ $tinta->lebar }}</td>
-                    <td>{{ $tinta->tinggi }}</td>
-                    <td>{{ $tinta->spesifikasi }}</td>
-                    <td>{{ $tinta->kode }}</td>
-                    <td>
-                        {{-- <a href="{{ route('tinta.edit', $tinta->id) }}"
-                           class="btn btn-warning btn-sm">
-                            Edit
-                        </a> --}}
+        </div>
 
-                        <form action="{{ route('tinta.destroy', $tinta->id) }}"
-                              method="POST"
-                              class="d-inline">
-                            @csrf
-                            @method('DELETE')
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Code</th>
+                        <th>Item</th>
+                        <th>Material</th>
+                        <th>Specs</th>
+                        <th>Qty</th>
+                        <th width="150">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($tintas as $index => $item)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $item->code }}</td>
+                            <td>{{ $item->item }}</td>
+                            <td>{{ $item->material }}</td>
+                            <td>{{ $item->specs }}</ttyd>
+                            <td>{{ number_format($item->qty, 0) }}</td>
+                            <td>
+                                {{-- <a href="{{ route('kertas.edit', $item->id) }}"
+                                   class="btn btn-warning btn-sm">
+                                    Edit
+                                </a> --}}
 
-                            <button type="submit"
-                                    class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Hapus data ini?')">
-                                Hapus
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="9" class="text-center">
-                        Belum ada data tinta
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+                                <form action="{{ route('corrugated.destroy', $item->id) }}"
+                                      method="POST"
+                                      class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
 
+                                    <button type="submit"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Yakin hapus data?')">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="9" class="text-center">
+                                Data Tinta belum ada.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+           {{-- modal --}}
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="importModalLabel">
+                    Import Data Corrugated
+                </h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+
+            <form action="{{ route('tinta.import') }}"
+                  method="POST"
+                  enctype="multipart/form-data">
+                @csrf
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="excel" class="form-label">
+                            File Excel
+                        </label>
+
+                        <input type="file"
+                               class="form-control"
+                               id="excel"
+                               name="excel"
+                               accept=".xlsx,.xls,.csv"
+                               required>
+
+                        <small class="text-muted">
+                            Format yang didukung: csv
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Batal
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-success">
+                        Import Data
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
 </div>
 
     <!-- Optional JavaScript; choose one of the two! -->

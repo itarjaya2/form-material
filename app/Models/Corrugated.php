@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Corrugated extends Model
 {
     protected $fillable = [
-        'kode',
-        'nama',
-        'jenis',
-        'gramasi',
+        'code',
+        'item',    
+        'jenis',       
         'material',
-        'panjang',
-        'lebar',
-        'spesifikasi',
+        'gramasi',     
+        'panjang',     
+        'lebar',    
+        'specs',
+        'qty',
+        'unit',
     ];
 }

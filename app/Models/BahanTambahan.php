@@ -8,13 +8,14 @@ class bahanTambahan extends Model
 {
     //
     protected $fillable = [
-        'kode',
-        'nama',
-        'jenis',
+        'code',
+        'item',
         'material',
+        'specs',
         'panjang',
         'lebar',
         'tinggi',
-        'spesifikasi',
+        'qty',
+        'unit',
     ];
 }

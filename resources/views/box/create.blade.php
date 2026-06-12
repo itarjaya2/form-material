@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,61 +27,59 @@
             <form action="{{ route('box.store') }}" method="POST">
                 @csrf
 
-                <div class="mb-3">
-                    <label class="form-label">Nama</label>
+                <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Item</label>
                     <input type="text"
-                           name="nama"
+                           name="item"
                            class="form-control"
                            required>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Jenis</label>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Specs</label>
                     <input type="text"
-                           name="jenis"
+                           name="specs"
                            class="form-control"
                            required>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Material</label>
-                    <input type="text"
-                           name="material"
-                           class="form-control"
-                           required>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Panjang</label>
-                        <input type="text"
+                        <input type="number"
                                name="panjang"
                                class="form-control"
                                required>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Lebar</label>
-                        <input type="text"
+                        <input type="number"
                                name="lebar"
                                class="form-control"
                                required>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Tinggi</label>
-                        <input type="text"
+                        <input type="number"
                                name="tinggi"
                                class="form-control"
                                required>
                     </div>
-
-                    
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Spesifikasi</label>
+                    <div class="mb-3">
+                    <label class="form-label">Unit</label>
                     <input type="text"
-                           name="spesifikasi"
+                           name="unit"
                            class="form-control">
+                </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Qty</label>
+                        <input type="number"
+                               name="qty"
+                               class="form-control"
+                               required>
+                    </div> 
                 </div>
 
                 <button type="submit" class="btn btn-primary">

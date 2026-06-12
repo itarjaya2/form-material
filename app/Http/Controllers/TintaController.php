@@ -29,40 +29,42 @@ class TintaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+   public function store(Request $request)
     {
     $validated = $request->validate([
-    'nama' => 'required|string',
-    'jenis' => 'required|string',
-    'material' => 'required|string',
-    'panjang' => 'required|string',
-    'lebar' => 'required|string',
-    'tinggi' => 'required|string',
-    'spesifikasi' => 'required|string',
+        'item' => 'required',
+        'specs' => 'required',
+        'qty' => 'required',
+        'unit' => 'required',
     ]);
 
-    $validated['nama'] = strtoupper($validated['nama']);
-    $validated['jenis'] = strtoupper($validated['jenis']);
-    $validated['material'] = strtoupper($validated['material']);
-    $validated['spesifikasi'] = strtoupper($validated['spesifikasi']);
-    // ambil data terakhir
-    $lastTinta = Tinta::latest()->first();
+    $validated['material'] = 'TINTA';
+    $validated['item'] = strtoupper($validated['item']);
+    $validated['specs'] = strtoupper($validated['specs']);
+    $validated['unit'] = strtoupper($validated['unit']);
 
-    // pengkondisian
-    // next number berisi => jika $lastTinta true maka +1 selain itu jadi 1
+    $materialCode = strtoupper($validated['material']) === 'TINTA'
+    ? 'INK'
+    : 'ERROR';
+
+    // ambil data tinta terakhir
+    $lastTinta = Tinta::latest('id')->first();
+
+    // tentukan nomor berikutnya
     $nextNumber = $lastTinta
-    // ubah ke int agar bisa terbaca kemudian tambah 1
-        ? ((int) substr($lastTinta->kode, 3)) + 1
+        ? ((int) substr($lastTinta->code, 3)) + 1
         : 1;
 
-    $validated['kode'] = 'INK' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+    // generate code
+    $validated['code'] =  $materialCode .
+        str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
 
     Tinta::create($validated);
 
-    return redirect()->route('tinta.index')
-                     ->with('success', 'Data tinta berhasil ditambahkan');
+    return redirect()
+        ->route('tinta.index')
+        ->with('success', 'Data tinta berhasil ditambahkan');
     }
-
     /**
      * Display the specified resource.
      */
@@ -98,4 +100,44 @@ class TintaController extends Controller
         return redirect()->route('tinta.index')
                         ->with('success', 'Data tinta berhasil dihapus');
     }
+    public function import(Request $request)
+{
+    $request->validate([
+        'excel' => 'required|mimes:csv,txt'
+    ]);
+
+    $file = fopen(
+        $request->file('excel')->getRealPath(),
+        'r'
+    );
+
+    // skip header
+    fgetcsv($file);
+
+    while (($row = fgetcsv($file, 1000, ',')) !== false) {
+
+        if (count($row) < 5) {
+            continue;
+        }
+
+        $data = [
+            'item'     => strtoupper(trim($row[0])),
+            'material' => strtoupper(trim($row[1])),
+            'specs'    => trim($row[2]),
+            'qty'      => trim($row[3]),
+            'unit'     => strtoupper(trim($row[4])),
+        ];
+
+        Tinta::create($data);
+    }
+
+    fclose($file);
+
+    return redirect()
+        ->route('tinta.index')
+        ->with('success', 'Data tinta berhasil diimport');
+}
+
+
+
 }

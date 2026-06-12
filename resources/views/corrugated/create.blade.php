@@ -28,9 +28,9 @@
                 @csrf
 
                 <div class="mb-3">
-                    <label class="form-label">Nama</label>
+                    <label class="form-label">Item</label>
                     <input type="text"
-                           name="nama"
+                           name="item"
                            class="form-control"
                            required>
                 </div>
@@ -43,32 +43,24 @@
                            required>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Material</label>
-                    <input type="text"
-                           name="material"
-                           class="form-control"
-                           required>
-                </div>
-
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Gramasi</label>
-                        <input type="text"
+                        <input type="number"
                                name="gramasi"
                                class="form-control"
                                required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Panjang</label>
-                        <input type="text"
+                        <input type="number"
                                name="panjang"
                                class="form-control"
                                required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Lebar</label>
-                        <input type="text"
+                        <input type="number"
                                name="lebar"
                                class="form-control"
                                required>
@@ -78,9 +70,21 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Spesifikasi</label>
+                    <label class="form-label">Specs</label>
                     <input type="text"
-                           name="spesifikasi"
+                           name="specs"
+                           class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Qty</label>
+                    <input type="number"
+                           name="qty"
+                           class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Unit</label>
+                    <input type="text"
+                           name="unit"
                            class="form-control">
                 </div>
 

@@ -32,35 +32,38 @@ class ChemicalController extends Controller
     public function store(Request $request)
     {
     $validated = $request->validate([
-    'nama' => 'required|string',
-    'jenis' => 'required|string',
-    'material' => 'required|string',
-    'panjang' => 'required|string',
-    'lebar' => 'required|string',
-    'tinggi' => 'required|string',
-    'spesifikasi' => 'required|string',
+        'item' => 'required',
+        'specs' => 'required',
+        'qty' => 'required',
+        'unit' => 'required',
     ]);
 
-    $validated['nama'] = strtoupper($validated['nama']);
-    $validated['jenis'] = strtoupper($validated['jenis']);
-    $validated['material'] = strtoupper($validated['material']);
-    $validated['spesifikasi'] = strtoupper($validated['spesifikasi']);
-    // ambil data terakhir
-    $lastChemical = Chemical::latest()->first();
+    $validated['material'] = 'CHEMICAL';
+    $validated['item'] = strtoupper($validated['item']);
+    $validated['specs'] = strtoupper($validated['specs']);
+    $validated['unit'] = strtoupper($validated['unit']);
 
-    // pengkondisian
-    // next number berisi => jika $lastChemical true maka +1 selain itu jadi 1
-    $nextNumber = $lastChemical
-    // ubah ke int agar bisa terbaca kemudian tambah 1
-        ? ((int) substr($lastChemical->kode, 3)) + 1
+    $materialCode = strtoupper($validated['material']) === 'CHEMICAL'
+    ? 'CHM'
+    : 'ERROR';
+
+    // ambil data tinta terakhir
+    $lastTinta = Chemical::latest('id')->first();
+
+    // tentukan nomor berikutnya
+    $nextNumber = $lastTinta
+        ? ((int) substr($lastTinta->code, 3)) + 1
         : 1;
 
-    $validated['kode'] = 'CMH' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+    // generate code
+    $validated['code'] =  $materialCode .
+        str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
 
     Chemical::create($validated);
 
-    return redirect()->route('chemical.index')
-                     ->with('success', 'Data Chemical berhasil ditambahkan');
+    return redirect()
+        ->route('chemical.index')
+        ->with('success', 'Data tinta berhasil ditambahkan');
     }
 
     /**

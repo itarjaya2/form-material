@@ -8,13 +8,16 @@ class Kertas extends Model
 {
     //
     protected $fillable = [
-        'kode',
-        'nama',
-        'jenis',
-        'gramasi',
-        'material',
-        'panjang',
-        'lebar',
-        'spesifikasi',
+        'code',
+        'item',    
+        'jenis',       
+        'material',    
+        'bentuk', 
+        'gramasi',     
+        'panjang',     
+        'lebar',    
+        'specs',
+        'qty',
+        'unit'
     ];
 }

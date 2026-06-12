@@ -13,14 +13,12 @@ return new class extends Migration
     {
          Schema::create('tintas', function (Blueprint $table) {
             $table->id();
-            $table->string('kode')->unique();
-            $table->string('nama');
-            $table->string('jenis');
+            $table->string('code')->unique();
+            $table->string('item'); //nama item
             $table->string('material');
-            $table->string('panjang');
-            $table->string('lebar');
-            $table->string('tinggi');
-            $table->text('spesifikasi');
+            $table->text('specs')->nullable();
+            $table->decimal('qty', 12, 4)->default(0);
+            $table->text('unit')->nullable();
             $table->timestamps();
         });
     }

@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Data Box</title>
+    <title>Tambah Data Bahan Penolong</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -28,61 +27,59 @@
             <form action="{{ route('bahan-penolong.store') }}" method="POST">
                 @csrf
 
-                <div class="mb-3">
-                    <label class="form-label">Nama</label>
+                <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Item</label>
                     <input type="text"
-                           name="nama"
+                           name="item"
                            class="form-control"
                            required>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Jenis</label>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Specs</label>
                     <input type="text"
-                           name="jenis"
+                           name="specs"
                            class="form-control"
                            required>
                 </div>
-
                 <div class="mb-3">
-                    <label class="form-label">Material</label>
+                    <label class="form-label">Unit</label>
                     <input type="text"
-                           name="material"
-                           class="form-control"
-                           required>
+                           name="unit"
+                           class="form-control">
+                </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Panjang</label>
-                        <input type="text"
+                        <input type="number"
                                name="panjang"
                                class="form-control"
                                required>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Lebar</label>
-                        <input type="text"
+                        <input type="number"
                                name="lebar"
                                class="form-control"
                                required>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Tinggi</label>
-                        <input type="text"
+                        <input type="number"
                                name="tinggi"
                                class="form-control"
                                required>
                     </div>
-
-                    
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Spesifikasi</label>
-                    <input type="text"
-                           name="spesifikasi"
-                           class="form-control">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Qty</label>
+                        <input type="number"
+                               name="qty"
+                               class="form-control"
+                               required>
+                    </div> 
                 </div>
 
                 <button type="submit" class="btn btn-primary">

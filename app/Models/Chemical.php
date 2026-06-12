@@ -7,13 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Chemical extends Model
 {
     protected $fillable = [
-        'kode',
-        'nama',
-        'jenis',
+        'code',
+        'item',
         'material',
-        'panjang',
-        'lebar',
-        'tinggi',
-        'spesifikasi',
+        'specs',
+        'qty',
+        'unit'
     ];
 }

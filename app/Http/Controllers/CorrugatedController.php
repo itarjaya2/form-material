@@ -33,21 +33,24 @@ class CorrugatedController extends Controller
    public function store(Request $request)
     {
     $validated = $request->validate([
-        'nama' => 'required',
+        'item' => 'required',
         'jenis' => 'required',
-        'material' => 'required',
+        'gramasi' => 'required',
         'panjang' => 'required',
         'lebar' => 'required',
-        'gramasi' => 'required',
-        'spesifikasi' => 'required',
+        'specs' => 'required',
+        'qty' => 'required',
+        'unit' => 'required',
     ]);
 
-    $validated['nama'] = strtoupper($validated['nama']);
+    $validated['item'] = strtoupper($validated['item']);
     $validated['jenis'] = strtoupper($validated['jenis']);
-    $validated['material'] = strtoupper($validated['material']);
-    $validated['spesifikasi'] = strtoupper($validated['spesifikasi']);
+    $validated['specs'] = strtoupper($validated['specs']);
+    $validated['unit'] = strtoupper($validated['unit']);
+    $validated['material'] = 'CORRUGATED';
 
-    $validated['kode'] = $this->generateKode($validated);
+
+    $validated['code'] = $this->generateCode($validated);
 
     Corrugated::create($validated);
 
@@ -103,23 +106,25 @@ class CorrugatedController extends Controller
 
     while (($row = fgetcsv($file, 1000, ',')) !== false) {
 
-        // Skip baris kosong
-        if (empty($row[0])) {
-            continue;
-        }
-
+        // 
+        if (count($row) < 9) {
+        continue;
+    }
         $data = [
-            'nama'        => strtoupper(trim($row[0])),
+            // input nama diisi oleh excel dari row 0
+            'item'        => strtoupper(trim($row[0])),
             'jenis'       => strtoupper(trim($row[1])),
-            'material'    => strtoupper(trim($row[2])),
+            'material' => 'CORRUGATED',
             'gramasi'     => trim($row[3]),
             'panjang'     => trim($row[4]),
             'lebar'       => trim($row[5]),
-            'spesifikasi' => strtoupper(trim($row[6])),
+            'specs' => strtoupper(trim($row[6])),
+            'qty'       => trim($row[7]),
+            'unit'        => strtoupper(trim($row[8])),
         ];
 
         // Generate kode
-        $data['kode'] = $this->generateKode($data);
+        $data['code'] = $this->generateCode($data);
 
         Corrugated::create($data);
     }
@@ -132,14 +137,19 @@ class CorrugatedController extends Controller
     }
 
 
-    private function generateKode(array $data)
+    private function generateCode(array $data)
     {
+
+    $jenis = str_replace(' ', '', strtoupper($data['jenis']));
+
     $jenisMap = [
         'SINGLE FACE' => 'SF',
+        'SINGLEFACE' => 'SF',
         'SHEET' => 'SH',
     ];
 
-    $jenisCode = 'OT';
+    // NILAI DEFAULT
+    $jenisCode = $jenisMap[$jenis] ?? 'ERROR';
 
     foreach ($jenisMap as $keyword => $code) {
         if (str_contains(strtoupper($data['jenis']), $keyword)) {
@@ -148,20 +158,27 @@ class CorrugatedController extends Controller
         }
     }
 
-    $materialCode = 'COR';
+    // validasi material code
+        $materialCode = strtoupper($data['material']) === 'CORRUGATED'
+        ? 'COR'
+        : 'ERROR';
 
-    $existing = Corrugated::where('spesifikasi',strtoupper($data['spesifikasi']))->first();
+        // cek data yang ada
+    $existing = Corrugated::where('specs',strtoupper($data['specs']))->first();
 
     if ($existing) {
-        $spesifikasiCode = substr($existing->kode, 5, 3);
+        $specsCode = substr($existing->code, 5, 3);
     } else {
-        $lastCode = Corrugated::latest('id')->first();
+        // ambil nomor specs terbesar yang pernah dipakai
+        $maxSpecsCode = Corrugated::all()
+        ->map(function ($item) {
+            return (int) substr($item->code, 5, 3);
+        })
+        ->max();
 
-        $nextNumber = $lastCode
-            ? ((int) substr($lastCode->kode, 5, 3)) + 1
-            : 1;
+        $nextNumber = ($maxSpecsCode ?? 0) + 1;
 
-        $spesifikasiCode = str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+    $specsCode = str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
     }
 
     $panjangCode = str_pad($data['panjang'] * 10, 4, '0', STR_PAD_LEFT);
@@ -169,7 +186,7 @@ class CorrugatedController extends Controller
 
     return $materialCode .
            $jenisCode .
-           $spesifikasiCode .
+           $specsCode .
            $panjangCode .
            $lebarCode;
     }

@@ -38,23 +38,26 @@ class KertasController extends Controller
         // validasi data pertama, pastikan semua field diisi
         // validasi data yang dikirimkan dari form, pastikan semua field diisi
     $validated = $request->validate([
-            'nama' => 'required',
-            'jenis' => 'required',
-            'material' => 'required',
+            'item' => 'required',//ivori 350
+            'jenis' => 'required',//ivory,dpc
+            'bentuk' => 'required',//sheet/roll
+            'gramasi' => 'required',
             'panjang' => 'required',
             'lebar' => 'required',
-            'gramasi' => 'required',
-            'spesifikasi' => 'required',
+            'specs' => 'required',
+            'qty' => 'required',
+            'unit' => 'required',
         ]);
    
     // convert ke uppercase    
-    $validated['nama'] = strtoupper($validated['nama']);
+    $validated['item'] = strtoupper($validated['item']);
     $validated['jenis'] = strtoupper($validated['jenis']);
-    $validated['material'] = strtoupper($validated['material']);
-    $validated['spesifikasi'] = strtoupper($validated['spesifikasi']);
+    $validated['specs'] = strtoupper($validated['specs']);
+    $validated['unit'] = strtoupper($validated['unit']);
+    $validated['material'] = 'KERTAS';
 
     // kode berisi dari func generate kode
-    $validated['kode'] = $this->generateKode($validated);
+    $validated['code'] = $this->generateCode($validated);
 
     // setelah itu simpan ke db
 
@@ -120,24 +123,25 @@ class KertasController extends Controller
 
     while (($row = fgetcsv($file, 1000, ',')) !== false) {
 
-        // Skip baris kosong
-        if (empty($row[0])) {
-            continue;
-        }
+        if (count($row) < 10) {
+        continue;
+    }
 
         $data = [
-            'nama'        => strtoupper(trim($row[0])),
+            'item'        => strtoupper(trim($row[0])),
             'jenis'       => strtoupper(trim($row[1])),
             'material'    => strtoupper(trim($row[2])),
-            'gramasi'     => trim($row[3]),
-            'panjang'     => trim($row[4]),
-            'lebar'       => trim($row[5]),
-            'spesifikasi' => strtoupper(trim($row[6])),
-
+            'bentuk'    => strtoupper(trim($row[3])),
+            'gramasi'     => trim($row[4]),
+            'panjang'     => trim($row[5]),
+            'lebar'       => trim($row[6]),
+            'specs' => strtoupper(trim($row[7])),
+            'qty'       => trim($row[8]),
+            'unit'     => strtoupper(trim($row[9])),
         ];
 
         // Generate kode
-        $data['kode'] = $this->generateKode($data);
+        $data['code'] = $this->generateCode($data);
 
         Kertas::create($data);
     }
@@ -150,9 +154,10 @@ class KertasController extends Controller
     }
 
     // function generate kode
-    private function generateKode(array $data)
+    private function generateCode(array $data)
     {
-        $namaKode = [
+        // ini adalah jenis
+        $jenisItem = [
             'DPC' => 'DP',
             'IVORY' => 'IV',
             'GOLDEN GLOSS' => 'GG',
@@ -173,12 +178,13 @@ class KertasController extends Controller
             'AMBRI' => 'AM'
         ];
 
-        $nama = strtoupper($data['nama']);
-        $namaCode = 'ERROR';
+        $jenis = strtoupper($data['jenis']);
+        $jenisCode = 'ERROR';
 
-        foreach ($namaKode as $keyword => $code) {
-            if (str_contains($nama, $keyword)) {
-                $namaCode = $code;
+        // cek dan sesuaikan input dengan daftar kode
+        foreach ($jenisItem as $keyword => $code) {
+            if (str_contains($jenis, $keyword)) {
+                $jenisCode = $code;
                 break;
             }
         }
@@ -190,11 +196,14 @@ class KertasController extends Controller
         $lebarCode = str_pad(
             $data['lebar'] * 10,4,'0',STR_PAD_LEFT);
 
-        $materialCode = 'KRT';
+        // validasi material code
+        $materialCode = strtoupper($data['material']) === 'KERTAS'
+        ? 'KRT'
+        : 'ERROR';
 
         return
             $materialCode .
-            $namaCode .
+            $jenisCode .
             $data['gramasi'] .
             $panjangCode .
             $lebarCode;

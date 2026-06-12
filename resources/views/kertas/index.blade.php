@@ -39,14 +39,17 @@
                 <thead class="table-light">
                     <tr>
                         <th>No</th>
-                        <th>Kode</th>
-                        <th>Nama</th>
+                        <th>Code</th>
+                        <th>Item</th>
                         <th>Jenis</th>
-                        <th>Gramasi</th>
                         <th>Material</th>
+                        <th>Bentuk</th>
+                        <th>Gramasi</th>
                         <th>Panjang</th>
                         <th>Lebar</th>
-                        <th>Spesifikasi</th>
+                        <th>Specs</th>
+                        <th>Qty</th>
+                        <th>Unit</th>
                         <th width="150">Aksi</th>
                     </tr>
                 </thead>
@@ -54,14 +57,17 @@
                     @forelse ($kertas as $index => $item)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $item->kode }}</td>
-                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->code }}</td>
+                            <td>{{ $item->item }}</td>
                             <td>{{ $item->jenis }}</td>
-                            <td>{{ $item->gramasi }}</td>
                             <td>{{ $item->material }}</td>
-                            <td>{{ $item->panjang }}</td>
-                            <td>{{ $item->lebar }}</td>
-                            <td>{{ $item->spesifikasi }}</td>
+                            <td>{{ $item->bentuk }}</td>
+                            <td>{{ $item->gramasi }}</td>
+                            <td>{{ number_format($item->panjang, 1) }}</td>
+                            <td>{{ number_format($item->lebar, 1) }}</td>
+                            <td>{{ $item->specs }}</td>
+                            <td>{{ number_format($item->qty, 0) }}</td>
+                            <td>{{ $item->unit }}</td>
                             <td>
                                 <a href="{{ route('kertas.edit', $item->id) }}"
                                    class="btn btn-warning btn-sm">
@@ -104,7 +110,7 @@
 
             <div class="modal-header">
                 <h5 class="modal-title" id="importModalLabel">
-                    Import Data Corrugated
+                    Import Data Kertas
                 </h5>
                 <button type="button"
                         class="btn-close"

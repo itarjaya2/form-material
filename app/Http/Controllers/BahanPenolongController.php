@@ -28,39 +28,46 @@ class BahanPenolongController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+     public function store(Request $request)
     {
     $validated = $request->validate([
-    'nama' => 'required|string',
-    'jenis' => 'required|string',
-    'material' => 'required|string',
-    'panjang' => 'required|string',
-    'lebar' => 'required|string',
-    'tinggi' => 'required|string',
-    'spesifikasi' => 'required|string',
+        'item' => 'required',
+        'specs' => 'required',
+        'panjang' => 'required',
+        'lebar' => 'required',
+        'tinggi' => 'required',
+        'qty' => 'required',
+        'unit' => 'required',
     ]);
 
-    $validated['nama'] = strtoupper($validated['nama']);
-    $validated['jenis'] = strtoupper($validated['jenis']);
-    $validated['material'] = strtoupper($validated['material']);
-    $validated['spesifikasi'] = strtoupper($validated['spesifikasi']);
-    // ambil data terakhir
-    $lastBahanPenolong = BahanPenolong::latest()->first();
+    $validated['material'] = 'BHP';
+    $validated['specs'] = strtoupper($validated['specs']);
+    $validated['item'] = strtoupper($validated['item']);
+    $validated['unit'] = strtoupper($validated['unit']);
 
-    // pengkondisian
-    // next number berisi => jika $lastBox true maka +1 selain itu jadi 1
-    $nextNumber = $lastBahanPenolong
-    // ubah ke int agar bisa terbaca kemudian tambah 1
-        ? ((int) substr($lastBahanPenolong->kode, 3)) + 1
+    $materialCode = strtoupper($validated['material']) === 'BHP'
+    ? 'BHP'
+    : 'ERROR';
+
+    // ambil data tinta terakhir
+    $lastTinta = BahanPenolong::latest('id')->first();
+
+    // tentukan nomor berikutnya
+    $nextNumber = $lastTinta
+        ? ((int) substr($lastTinta->code, 3)) + 1
         : 1;
 
-    $validated['kode'] = 'BHP' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+    // generate code
+    $validated['code'] =  $materialCode .
+        str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
 
     BahanPenolong::create($validated);
 
-    return redirect()->route('bahan-penolong.index')
-                     ->with('success', 'Data Bahan Penolong berhasil ditambahkan');
+    return redirect()
+        ->route('bahan-penolong.index')
+        ->with('success', 'Data box berhasil ditambahkan');
     }
+
 
 
     /**

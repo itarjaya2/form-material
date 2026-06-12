@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('boxes', function (Blueprint $table) {
             $table->id();
-            $table->string('kode')->unique();
-            $table->string('nama');
-            $table->string('jenis');
-            $table->string('material');
-            $table->string('panjang');
-            $table->string('lebar');
-            $table->string('tinggi');
-            $table->text('spesifikasi');
+            $table->string('code')->unique();
+            $table->string('item');
+            $table->string('material')->nullable();
+            $table->string('specs')->nullable();
+            $table->string('panjang')->nullable();
+            $table->string('lebar')->nullable();
+            $table->string('tinggi')->nullable();
+            $table->decimal('qty', 12, 4)->default(0);
+            $table->text('unit')->nullable();
             $table->timestamps();
         });
     }

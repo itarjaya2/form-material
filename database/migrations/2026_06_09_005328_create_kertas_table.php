@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('kertas', function (Blueprint $table) {
             $table->id();
-            $table->string('kode')->unique();
-            $table->string('nama');
+            $table->string('code')->unique();
+            $table->string('item');
             $table->string('jenis');
-            $table->string('gramasi');
             $table->string('material');
-            $table->string('panjang');
-            $table->string('lebar');
-            $table->string('spesifikasi');
+            $table->enum('bentuk',['ROLL','SHEET']);
+            $table->integer('gramasi');
+            $table->decimal('panjang', 8, 2)->nullable();
+            $table->decimal('lebar')->nullable();
+            $table->text('specs')->nullable();
+            $table->decimal('qty', 12, 4)->default(0);
+            $table->text('unit')->nullable();
             $table->timestamps();
             });
     }
