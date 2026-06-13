@@ -69,10 +69,10 @@
                             <td>{{ number_format($item->qty, 0) }}</td>
                             <td>{{ $item->unit }}</td>
                             <td>
-                                <a href="{{ route('kertas.edit', $item->id) }}"
+                                {{-- <a href="{{ route('kertas.edit', $item->id) }}"
                                    class="btn btn-warning btn-sm">
                                     Edit
-                                </a>
+                                </a> --}}
 
                                 <form action="{{ route('kertas.destroy', $item->id) }}"
                                       method="POST"

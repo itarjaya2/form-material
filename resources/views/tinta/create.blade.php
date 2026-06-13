@@ -50,6 +50,13 @@
                         required>
                 </div>
                 <div class="mb-3">
+                    <label for="qty" class="form-label">Qty</label>
+                    <input type="number"
+                               name="qty"
+                               class="form-control"
+                               required>
+                </div>
+                <div class="mb-3">
                     <label for="specs" class="form-label">Unit</label>
                     <input
                         type="text"
@@ -57,14 +64,6 @@
                         name="unit"
                         class="form-control"
                         required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="qty" class="form-label">Qty</label>
-                    <input type="number"
-                               name="qty"
-                               class="form-control"
-                               required>
                 </div>
 
                 <div class="d-flex gap-2">

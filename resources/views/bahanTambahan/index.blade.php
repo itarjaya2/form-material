@@ -8,15 +8,15 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title>Data Bahan Penolong</title>
+    <title>Data Bahan Tambahan</title>
   </head>
   <body>
     <x-navbar/>
-    <h1 class="text-center mb-5">Bahan Penolong</h1>
+    <h1 class="text-center mb-5">Bahan Tambahan</h1>
     <div class="container mt-5">
     <div class="card shadow">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Data Bahan Penolong</h3>
+            <h3 class="mb-0">Data Bahan Tambahan</h3>
             <div>
                 <button type="button"
                     class="btn btn-success"
@@ -44,6 +44,7 @@
                         <th>Tinggi</th>
                         <th>Specs</th>
                         <th>Qty</th>
+                        <th>Unit</th>
                         <th width="150">Aksi</th>
                     </tr>
                 </thead>
@@ -59,6 +60,7 @@
                             <td>{{ number_format($item->tinggi, 1) }}</td>
                             <td>{{ $item->specs }}</td>
                             <td>{{ number_format($item->qty, 0) }}</td>
+                            <td>{{ $item->unit }}</td>
                             <td>
                                 {{-- <a href="{{ route('box.edit', $item->id) }}"
                                    class="btn btn-warning btn-sm">

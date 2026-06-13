@@ -176,8 +176,8 @@ class CorrugatedController extends Controller
         })
         ->max();
 
-        $nextNumber = ($maxSpecsCode ?? 0) + 1;
-
+    $nextNumber = ($maxSpecsCode ?? 0) + 1;
+    // 3 digit mengisi dari kiri
     $specsCode = str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
     }
 

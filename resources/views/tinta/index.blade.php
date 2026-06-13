@@ -42,6 +42,7 @@
                         <th>Material</th>
                         <th>Specs</th>
                         <th>Qty</th>
+                        <th>Unit</th>
                         <th width="150">Aksi</th>
                     </tr>
                 </thead>
@@ -54,6 +55,7 @@
                             <td>{{ $item->material }}</td>
                             <td>{{ $item->specs }}</ttyd>
                             <td>{{ number_format($item->qty, 0) }}</td>
+                            <td>{{ $item->unit }}</td>
                             <td>
                                 {{-- <a href="{{ route('kertas.edit', $item->id) }}"
                                    class="btn btn-warning btn-sm">
@@ -94,7 +96,7 @@
 
             <div class="modal-header">
                 <h5 class="modal-title" id="importModalLabel">
-                    Import Data Corrugated
+                    Import Data Tinta
                 </h5>
                 <button type="button"
                         class="btn-close"

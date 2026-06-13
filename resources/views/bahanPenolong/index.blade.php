@@ -44,6 +44,7 @@
                         <th>Tinggi</th>
                         <th>Specs</th>
                         <th>Qty</th>
+                        <th>Unit</th>
                         <th width="150">Aksi</th>
                     </tr>
                 </thead>
@@ -59,13 +60,14 @@
                             <td>{{ number_format($item->tinggi, 1) }}</td>
                             <td>{{ $item->specs }}</td>
                             <td>{{ number_format($item->qty, 0) }}</td>
+                            <td>{{ $item->unit }}</td>
                             <td>
                                 {{-- <a href="{{ route('box.edit', $item->id) }}"
                                    class="btn btn-warning btn-sm">
                                     Edit
                                 </a> --}}
 
-                                <form action="{{ route('bahan-penolong.destroy', $item->id) }}"
+                                <form action="{{ route('bahan-tambahan.destroy', $item->id) }}"
                                       method="POST"
                                       class="d-inline">
                                     @csrf
@@ -82,7 +84,7 @@
                     @empty
                         <tr>
                             <td colspan="9" class="text-center">
-                                Data Bahan Penolong belum ada.
+                                Data Bahan Bahan Penolong belum ada.
                             </td>
                         </tr>
                     @endforelse

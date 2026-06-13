@@ -43,21 +43,7 @@ class TintaController extends Controller
     $validated['specs'] = strtoupper($validated['specs']);
     $validated['unit'] = strtoupper($validated['unit']);
 
-    $materialCode = strtoupper($validated['material']) === 'TINTA'
-    ? 'INK'
-    : 'ERROR';
-
-    // ambil data tinta terakhir
-    $lastTinta = Tinta::latest('id')->first();
-
-    // tentukan nomor berikutnya
-    $nextNumber = $lastTinta
-        ? ((int) substr($lastTinta->code, 3)) + 1
-        : 1;
-
-    // generate code
-    $validated['code'] =  $materialCode .
-        str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+    $validated['code'] = $this->generateCode();
 
     Tinta::create($validated);
 
@@ -100,8 +86,10 @@ class TintaController extends Controller
         return redirect()->route('tinta.index')
                         ->with('success', 'Data tinta berhasil dihapus');
     }
+
     public function import(Request $request)
-{
+    {
+    //   dd($request->file('excel'));
     $request->validate([
         'excel' => 'required|mimes:csv,txt'
     ]);
@@ -113,6 +101,9 @@ class TintaController extends Controller
 
     // skip header
     fgetcsv($file);
+    // 1. Ambil data terakhir SATU KALI sebelum looping untuk modal awal increment
+        $lastTinta = Tinta::latest('id')->first();
+        $nextNumber = $lastTinta ? ((int) substr($lastTinta->code, 3)) + 1 : 1;
 
     while (($row = fgetcsv($file, 1000, ',')) !== false) {
 
@@ -121,6 +112,7 @@ class TintaController extends Controller
         }
 
         $data = [
+            'code'     => $this->generateCode(),
             'item'     => strtoupper(trim($row[0])),
             'material' => strtoupper(trim($row[1])),
             'specs'    => trim($row[2]),
@@ -129,6 +121,8 @@ class TintaController extends Controller
         ];
 
         Tinta::create($data);
+        // 4. Tambahkan nomor untuk baris CSV berikutnya
+        $nextNumber++;
     }
 
     fclose($file);
@@ -136,7 +130,18 @@ class TintaController extends Controller
     return redirect()
         ->route('tinta.index')
         ->with('success', 'Data tinta berhasil diimport');
-}
+    }
+
+    private function generateCode()
+    {
+        $lastTinta = Tinta::latest('id')->first();
+
+        $nextNumber = $lastTinta
+            ? ((int) substr($lastTinta->code, 3)) + 1
+            : 1;
+
+        return 'INK' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+    }
 
 
 

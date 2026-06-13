@@ -43,27 +43,13 @@ class ChemicalController extends Controller
     $validated['specs'] = strtoupper($validated['specs']);
     $validated['unit'] = strtoupper($validated['unit']);
 
-    $materialCode = strtoupper($validated['material']) === 'CHEMICAL'
-    ? 'CHM'
-    : 'ERROR';
-
-    // ambil data tinta terakhir
-    $lastTinta = Chemical::latest('id')->first();
-
-    // tentukan nomor berikutnya
-    $nextNumber = $lastTinta
-        ? ((int) substr($lastTinta->code, 3)) + 1
-        : 1;
-
-    // generate code
-    $validated['code'] =  $materialCode .
-        str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+    $validated['code'] = $this->generateCode();
 
     Chemical::create($validated);
 
     return redirect()
         ->route('chemical.index')
-        ->with('success', 'Data tinta berhasil ditambahkan');
+        ->with('success', 'Data chemical berhasil ditambahkan');
     }
 
     /**
@@ -96,5 +82,61 @@ class ChemicalController extends Controller
     public function destroy(Chemical $chemical)
     {
         //
+    }
+
+    public function import(Request $request)
+    {
+    //   dd($request->file('excel'));
+    $request->validate([
+        'excel' => 'required|mimes:csv,txt'
+    ]);
+
+    $file = fopen(
+        $request->file('excel')->getRealPath(),
+        'r'
+    );
+
+    // skip header
+    fgetcsv($file);
+     $lastChemical = Chemical::latest('id')->first();
+    $nextNumber = $lastChemical ? ((int) substr($lastChemical->code, 3)) + 1 : 1;
+
+
+    while (($row = fgetcsv($file, 1000, ',')) !== false) {
+
+        if (count($row) < 5) {
+            continue;
+        }
+
+        $data = [
+            'code'     => $this->generateCode(),
+            'item'     => strtoupper(trim($row[0])),
+            'material' => strtoupper(trim($row[1])),   
+            'specs'    => strtoupper(trim($row[2])),
+            'qty'      => trim($row[3]),
+            'unit'     => strtoupper(trim($row[4])),
+        ];
+
+        Chemical::create($data);
+            $nextNumber++;
+    }
+
+    fclose($file);
+
+    return redirect()
+        ->route('chemical.index')
+        ->with('success', 'Data chemical berhasil diimport');
+    }
+
+    private function generateCode()
+    {
+        $lastChemical = Chemical::latest('id')->first();
+
+        $nextNumber = $lastChemical
+            ? ((int) substr($lastChemical->code, 3)) + 1
+            : 1;
+
+        // generate code dengan prefix 'CHM' dan nomor 5 digit
+        return 'CHM' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
     }
 }

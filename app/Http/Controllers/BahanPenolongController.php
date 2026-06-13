@@ -40,14 +40,15 @@ class BahanPenolongController extends Controller
         'unit' => 'required',
     ]);
 
-    $validated['material'] = 'BHP';
+    $validated['material'] = 'Bahan Penolong';
     $validated['specs'] = strtoupper($validated['specs']);
     $validated['item'] = strtoupper($validated['item']);
     $validated['unit'] = strtoupper($validated['unit']);
 
-    $materialCode = strtoupper($validated['material']) === 'BHP'
+    $materialCode = strtoupper($validated['material']) === 'BAHAN PENOLONG'
     ? 'BHP'
     : 'ERROR';
+    
 
     // ambil data tinta terakhir
     $lastTinta = BahanPenolong::latest('id')->first();
@@ -100,5 +101,66 @@ class BahanPenolongController extends Controller
     public function destroy(BahanPenolong $bahanPenolong)
     {
         //
+    }
+
+    public function import(Request $request)
+    {
+    //   dd($request->file('excel'));
+    $request->validate([
+        'excel' => 'required|mimes:csv,txt'
+    ]);
+
+    $file = fopen(
+        $request->file('excel')->getRealPath(),
+        'r'
+    );
+
+    // skip header
+    fgetcsv($file);
+    $lastBahanPenolong = BahanPenolong::latest('id')->first();
+    $nextNumber = $lastBahanPenolong ? ((int) substr($lastBahanPenolong->code, 3)) + 1 : 1;
+
+
+    while (($row = fgetcsv($file, 1000, ',')) !== false) {
+
+        if (count($row) < 8) {
+            continue;
+        }
+
+        $data = [
+            'code'     => $this->generateCode(),
+            'item'     => strtoupper(trim($row[0])),
+            'material' => strtoupper(trim($row[1])),   
+            'specs'    => strtoupper(trim($row[2])),
+            'panjang'  => trim($row[3]),
+            'lebar'    => trim($row[4]),
+            'tinggi'   => trim($row[5]),
+            'qty'      => trim($row[6]),
+            'unit'     => strtoupper(trim($row[7])),
+        ];
+
+        BahanPenolong::create($data);
+            $nextNumber++;
+    }
+
+    fclose($file);
+
+    return redirect()
+        ->route('bahan-penolong.index')
+        ->with('success', 'Data Bahan Penolong berhasil diimport');
+    }
+
+    private function generateCode()
+    {
+        $lastBahanPenolong = BahanPenolong::latest('id')->first();
+        // tentukan nomor berikutnya
+        // ambil nomor terakhir dari code, 
+        // misal 'BOX00001' -> ambil '00001', lalu convert ke integer dan tambah 1
+        $nextNumber = $lastBahanPenolong
+            ? ((int) substr($lastBahanPenolong->code, 3)) + 1
+            : 1;
+
+        // generate code dengan prefix 'BOX' dan nomor 5 digit
+        return 'BHP' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 }

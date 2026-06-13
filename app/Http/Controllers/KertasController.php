@@ -123,6 +123,11 @@ class KertasController extends Controller
 
     while (($row = fgetcsv($file, 1000, ',')) !== false) {
 
+    // skip baris kosong
+    if (empty(array_filter($row))) {
+        continue;
+    }
+
         if (count($row) < 10) {
         continue;
     }
@@ -156,6 +161,7 @@ class KertasController extends Controller
     // function generate kode
     private function generateCode(array $data)
     {
+        
         // ini adalah jenis
         $jenisItem = [
             'DPC' => 'DP',
@@ -189,9 +195,17 @@ class KertasController extends Controller
             }
         }
 
-        $panjangCode = $data['panjang'] == '0'
-            ? 'L000'
-            : str_pad($data['panjang'] * 10, 4, '0', STR_PAD_LEFT);
+        // ambil dari bentuk 
+        // jika bentuk roll maka jadi L000
+        // jika bukan roll ambil panjang
+        $panjangCode = strtoupper($data['bentuk']) === 'ROLL'
+        ? 'L000'
+        : str_pad(
+            (int) ($data['panjang'] * 10),
+            4,
+            '0',
+            STR_PAD_LEFT
+        );
 
         $lebarCode = str_pad(
             $data['lebar'] * 10,4,'0',STR_PAD_LEFT);

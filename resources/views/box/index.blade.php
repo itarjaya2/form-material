@@ -19,8 +19,6 @@
             <h3 class="mb-0">Data Box</h3>
 
             <div>
-
-
                 <button type="button"
                     class="btn btn-success"
                     data-bs-toggle="modal"
@@ -47,6 +45,7 @@
                         <th>Tinggi</th>
                         <th>Specs</th>
                         <th>Qty</th>
+                        <th>Unit</th>
                         <th width="150">Aksi</th>
                     </tr>
                 </thead>
@@ -62,11 +61,12 @@
                             <td>{{ number_format($item->tinggi, 1) }}</td>
                             <td>{{ $item->specs }}</td>
                             <td>{{ number_format($item->qty, 0) }}</td>
+                            <td>{{ $item->unit }}</td>
                             <td>
-                                <a href="{{ route('box.edit', $item->id) }}"
+                                {{-- <a href="{{ route('box.edit', $item->id) }}"
                                    class="btn btn-warning btn-sm">
                                     Edit
-                                </a>
+                                </a> --}}
 
                                 <form action="{{ route('box.destroy', $item->id) }}"
                                       method="POST"

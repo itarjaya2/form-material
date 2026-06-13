@@ -32,7 +32,7 @@ class BahanTambahanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-     public function store(Request $request)
+    public function store(Request $request)
     {
     $validated = $request->validate([
         'item' => 'required',
@@ -42,34 +42,25 @@ class BahanTambahanController extends Controller
         'tinggi' => 'required',
         'qty' => 'required',
         'unit' => 'required',
+        
     ]);
 
-    $validated['material'] = 'BHT';
+    $validated['material'] = 'BAHAN TAMBAHAN';
     $validated['specs'] = strtoupper($validated['specs']);
     $validated['item'] = strtoupper($validated['item']);
     $validated['unit'] = strtoupper($validated['unit']);
 
-    $materialCode = strtoupper($validated['material']) === 'BHT'
+    $materialCode = strtoupper($validated['material']) === 'BAHAN TAMBAHAN'
     ? 'BHT'
     : 'ERROR';
 
-    // ambil data tinta terakhir
-    $lastTinta = BahanTambahan::latest('id')->first();
-
-    // tentukan nomor berikutnya
-    $nextNumber = $lastTinta
-        ? ((int) substr($lastTinta->code, 3)) + 1
-        : 1;
-
-    // generate code
-    $validated['code'] =  $materialCode .
-        str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+    $validated['code'] = $this->generateCode();
 
     BahanTambahan::create($validated);
 
     return redirect()
         ->route('bahan-tambahan.index')
-        ->with('success', 'Data bahan tambahan berhasil ditambahkan');
+        ->with('success', 'Data box berhasil ditambahkan');
     }
 
 
@@ -103,5 +94,66 @@ class BahanTambahanController extends Controller
     public function destroy(bahanTambahan $bahanTambahan)
     {
         //
+    }
+
+    public function import(Request $request)
+    {
+    //   dd($request->file('excel'));
+    $request->validate([
+        'excel' => 'required|mimes:csv,txt'
+    ]);
+
+    $file = fopen(
+        $request->file('excel')->getRealPath(),
+        'r'
+    );
+
+    // skip header
+    fgetcsv($file);
+    $lastBahanTambahan = BahanTambahan::latest('id')->first();
+    $nextNumber = $lastBahanTambahan ? ((int) substr($lastBahanTambahan->code, 3)) + 1 : 1;
+
+
+    while (($row = fgetcsv($file, 1000, ',')) !== false) {
+
+        if (count($row) < 8) {
+            continue;
+        }
+
+        $data = [
+            'code'     => $this->generateCode(),
+            'item'     => strtoupper(trim($row[0])),
+            'material' => strtoupper(trim($row[1])),   
+            'specs'    => strtoupper(trim($row[2])),
+            'panjang'  => trim($row[3]),
+            'lebar'    => trim($row[4]),
+            'tinggi'   => trim($row[5]),
+            'qty'      => trim($row[6]),
+            'unit'     => strtoupper(trim($row[7])),
+        ];
+
+        BahanTambahan::create($data);
+            $nextNumber++;
+    }
+
+    fclose($file);
+
+    return redirect()
+        ->route('bahan-tambahan.index')
+        ->with('success', 'Data Bahan Tambahan berhasil diimport');
+    }
+
+    private function generateCode()
+    {
+        $lastBahanTambahan = BahanTambahan::latest('id')->first();
+        // tentukan nomor berikutnya
+        // ambil nomor terakhir dari code, 
+        // misal 'BOX00001' -> ambil '00001', lalu convert ke integer dan tambah 1
+        $nextNumber = $lastBahanTambahan
+            ? ((int) substr($lastBahanTambahan->code, 3)) + 1
+            : 1;
+
+        // generate code dengan prefix 'BOX' dan nomor 5 digit
+        return 'BHT' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 }
