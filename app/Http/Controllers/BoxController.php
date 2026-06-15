@@ -39,7 +39,6 @@ class BoxController extends Controller
         'tinggi' => 'required',
         'qty' => 'required',
         'unit' => 'required',
-        
     ]);
 
     $validated['material'] = 'BOX';
@@ -104,8 +103,8 @@ class BoxController extends Controller
         'r'
     );
 
-    // skip header
     fgetcsv($file);
+    
     $lastBox = Box::latest('id')->first();
     $nextNumber = $lastBox ? ((int) substr($lastBox->code, 3)) + 1 : 1;
 

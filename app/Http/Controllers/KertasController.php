@@ -164,6 +164,9 @@ class KertasController extends Controller
         
         // ini adalah jenis
         $jenisItem = [
+            'WHITEKRAFT' => 'WK',
+            'WHITE KRAFT' => 'WK',
+            'ART PAPER ONE SIDE' => 'AS',
             'DPC' => 'DP',
             'IVORY' => 'IV',
             'GOLDEN GLOSS' => 'GG',
@@ -171,17 +174,32 @@ class KertasController extends Controller
             'ART CARTON' => 'AC',
             'CUP STOCK' => 'CS',
             'CUPSTOCK' => 'CS',
-            'ART PAPER 1 SIDE' => 'AS',
+            
             'PDC' => 'PD',
             'PSC' => 'PS',
             'TWO PACK' => 'TP',
             // new
-            'EXTRU' => 'EX',
             'FOOPACK' => 'FP',
+            'KRAFT' => 'KR',
+            'EXTRU' => 'EX',
+            'DC COSEL' => 'DC',
+            'METALIZED BOARD' => 'MD',
+            
+            'YELLOWBOARD' => 'YB',
+            'YELLOW BOARD' => 'YB',
+            'AKASIA' => 'AK',
+            'AMBRI' => 'AM',
+            'ART CARTON ONE SIDE' => 'AC',
+            'TRIPLEX BOARD' => 'TB',
+            'WPC' => 'WP',
+            'CDWB' => 'CD',
             'HVS' => 'HV',
-            // 'YELLOW BOARD' => 'YB',
-            // 'YELLOWBOARD' => 'YB',
-            'AMBRI' => 'AM'
+            'ONE SIDE' => 'OS',
+            
+            'DPNC' => 'DN',
+            'GREY BOARD' => 'RB',
+            'EMBOSS BOARD' => 'EB',
+            'LINEN EMBOSS' => 'LE',
         ];
 
         $jenis = strtoupper($data['jenis']);
