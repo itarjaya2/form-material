@@ -54,22 +54,22 @@ return new class extends Migration
             $table->text('boxspecs')->nullable();
             $table->text('boxsize')->nullable();
 
-            $table->decimal('nwbox', 10, 2)->nullable();
-            $table->decimal('nwpcs', 10, 2)->nullable();
+            $table->text('nwbox')->nullable();
+            $table->text('nwpcs')->nullable();
 
             $table->text('estimasipackaging')->nullable();
             $table->text('ukrperbendel')->nullable();
 
-            $table->decimal('boxdalampanjang', 10, 2)->nullable();
-            $table->decimal('boxdalamlebar', 10, 2)->nullable();
-            $table->decimal('boxdalamtinggi', 10, 2)->nullable();
+            $table->text('boxdalampanjang')->nullable();
+            $table->text('boxdalamlebar')->nullable();
+            $table->text('boxdalamtinggi')->nullable();
 
-            $table->decimal('boxluarpanjang', 10, 2)->nullable();
-            $table->decimal('boxluarlebar', 10, 2)->nullable();
-            $table->decimal('boxluartinggi', 10, 2)->nullable();
+            $table->text('boxluarpanjang')->nullable();
+            $table->text('boxluarlebar')->nullable();
+            $table->text('boxluartinggi')->nullable();
 
             $table->text('effective')->nullable();
-            $table->date('preparedate')->nullable();
+            $table->text('preparedate')->nullable();
 
             $table->text('supplier')->nullable();
             $table->text('isi')->nullable();
@@ -124,9 +124,9 @@ return new class extends Migration
             $table->text('note2')->nullable();
             $table->text('note3')->nullable();
 
-            $table->longText('notedesignrequest')->nullable();
+            $table->text('notedesignrequest')->nullable();
 
-            $table->date('tanggalterima')->nullable();
+            $table->text('tanggalterima')->nullable();
 
             // Tambahan
             $table->text('filedesign')->nullable();
@@ -156,8 +156,8 @@ return new class extends Migration
             $table->text('statusi')->nullable();
             $table->text('statusj')->nullable();
 
-            $table->longText('feedback')->nullable();
-            $table->longText('feedback_history')->nullable();
+            $table->text('feedback')->nullable();
+            $table->text('feedback_history')->nullable();
 
             $table->unsignedBigInteger('edited_by')->nullable();
             $table->timestamp('edited_at')->nullable();
