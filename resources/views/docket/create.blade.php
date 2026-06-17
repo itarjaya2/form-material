@@ -38,11 +38,6 @@
                         <div class="card-body row">
 
                             <div class="col-md-4 mb-3">
-                                <label>Code</label>
-                                <input type="text" name="code" class="form-control">
-                            </div>
-
-                            <div class="col-md-4 mb-3">
                                 <label>Design Number</label>
                                 <input type="text" name="designnumber" class="form-control">
                             </div>

@@ -36,19 +36,34 @@ class DocketController extends Controller
     {
         // cek data yang ada di request
         $request->validate([
-            'code' => 'required|unique:dockets,code',
-            'designnumber' => 'nullable',
+            'designnumber' => 'required',
             'source_type' => 'nullable',
             'label' => 'nullable',
-            'jenis' => 'nullable',
+            'jenis' => 'required',
             'bom_id' => 'nullable',
-            'product' => 'nullable',
+            'product' => 'required',
             'sap' => 'nullable',
         ]);
-        
-        Docket::create($request->except([
-            '_token'
-        ]));
+
+    $jenis = $request->jenis;
+    $designnumber = $request->designnumber;
+
+    // Ambil data terakhir
+    $lastDocket = Docket::latest('id')->first();
+
+    $nomorUrut = $lastDocket ? $lastDocket->id + 1 : 1;
+
+    // Format jadi 4 digit
+    $nomorUrut = str_pad($nomorUrut, 4, '0', STR_PAD_LEFT);
+    $code = $jenis . $designnumber . $nomorUrut;
+
+    // simpan data kecuali token
+    $data = $request->except('_token');
+    // perbarui kode
+    $data['code'] = $code;
+
+
+    Docket::create($data);
 
         return redirect()
             ->route('docket.index')
