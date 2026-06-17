@@ -36,7 +36,7 @@ class DocketController extends Controller
     {
         // cek data yang ada di request
         $request->validate([
-            'designnumber' => 'required',
+            'designnumber' => 'nullable',
             'source_type' => 'nullable',
             'label' => 'nullable',
             'jenis' => 'required',
@@ -46,7 +46,9 @@ class DocketController extends Controller
         ]);
 
     $jenis = $request->jenis;
-    $designnumber = $request->designnumber;
+    $designnumber = empty($request->designnumber)
+    ? '000000'
+    : $request->designnumber;
 
     // Ambil data terakhir
     $lastDocket = Docket::latest('id')->first();
