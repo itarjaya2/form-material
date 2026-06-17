@@ -9,7 +9,7 @@ use App\Http\Controllers\BoxController;
 use App\Http\Controllers\BahanPenolongController;
 use App\Http\Controllers\BahanTambahanController;
 use App\Http\Controllers\CorrugatedController;
-
+use App\Http\Controllers\DocketController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -52,6 +52,7 @@ Route::resource('corrugated', CorrugatedController::class);
 Route::post('/corrugated/import', [CorrugatedController::class, 'import'])
     ->name('corrugated.import');
 
+Route::resource('docket',DocketController::class);
 
 
 
