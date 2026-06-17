@@ -12,36 +12,36 @@ return new class extends Migration
             $table->id();
 
             // Header
-            $table->string('code')->unique();
-            $table->string('designnumber')->nullable();
-            $table->string('source_type')->nullable();
-            $table->string('label')->nullable();
-            $table->string('jenis')->nullable();
+            $table->text('code')->unique();
+            $table->text('designnumber')->nullable();
+            $table->text('source_type')->nullable();
+            $table->text('label')->nullable();
+            $table->text('jenis')->nullable();
 
-            $table->string('bom_id')->nullable();
+            $table->text('bom_id')->nullable();
 
-            $table->string('product')->nullable();
-            $table->string('sap')->nullable();
-            $table->string('original')->nullable();
-            $table->string('design')->nullable();
-            $table->string('actcolor')->nullable();
-            $table->string('statusorder')->nullable();
+            $table->text('product')->nullable();
+            $table->text('sap')->nullable();
+            $table->text('original')->nullable();
+            $table->text('design')->nullable();
+            $table->text('actcolor')->nullable();
+            $table->text('statusorder')->nullable();
 
             // Front
-            $table->string('f1',20)->nullable();
-            $table->string('f2',20)->nullable();
-            $table->string('f3',20)->nullable();
-            $table->string('f4',20)->nullable();
-            $table->string('f5',20)->nullable();
-            $table->string('f6',20)->nullable();
+            $table->text('f1')->nullable();
+            $table->text('f2')->nullable();
+            $table->text('f3')->nullable();
+            $table->text('f4')->nullable();
+            $table->text('f5')->nullable();
+            $table->text('f6')->nullable();
 
             // Back
-            $table->string('b1',20)->nullable();
-            $table->string('b2',20)->nullable();
-            $table->string('b3',20)->nullable();
-            $table->string('b4',20)->nullable();
-            $table->string('b5',20)->nullable();
-            $table->string('b6',20)->nullable();
+            $table->text('b1')->nullable();
+            $table->text('b2')->nullable();
+            $table->text('b3')->nullable();
+            $table->text('b4')->nullable();
+            $table->text('b5')->nullable();
+            $table->text('b6')->nullable();
 
             // Packaging
             $table->text('finishingjob')->nullable();
@@ -49,16 +49,16 @@ return new class extends Migration
             $table->text('acuandiecut')->nullable();
             $table->text('packing')->nullable();
 
-            $table->string('nops')->nullable();
-            $table->string('boxname')->nullable();
-            $table->string('boxspecs')->nullable();
-            $table->string('boxsize')->nullable();
+            $table->text('nops')->nullable();
+            $table->text('boxname')->nullable();
+            $table->text('boxspecs')->nullable();
+            $table->text('boxsize')->nullable();
 
             $table->decimal('nwbox', 10, 2)->nullable();
             $table->decimal('nwpcs', 10, 2)->nullable();
 
-            $table->string('estimasipackaging')->nullable();
-            $table->string('ukrperbendel')->nullable();
+            $table->text('estimasipackaging')->nullable();
+            $table->text('ukrperbendel')->nullable();
 
             $table->decimal('boxdalampanjang', 10, 2)->nullable();
             $table->decimal('boxdalamlebar', 10, 2)->nullable();
@@ -68,57 +68,57 @@ return new class extends Migration
             $table->decimal('boxluarlebar', 10, 2)->nullable();
             $table->decimal('boxluartinggi', 10, 2)->nullable();
 
-            $table->string('effective')->nullable();
+            $table->text('effective')->nullable();
             $table->date('preparedate')->nullable();
 
-            $table->string('supplier')->nullable();
-            $table->string('isi')->nullable();
-            $table->string('isiboxsap')->nullable();
-            $table->string('sapataubendel')->nullable();
-            $table->string('susunan')->nullable();
+            $table->text('supplier')->nullable();
+            $table->text('isi')->nullable();
+            $table->text('isiboxsap')->nullable();
+            $table->text('sapataubendel')->nullable();
+            $table->text('susunan')->nullable();
 
             // Gambar
-            $table->string('gambar1',50)->nullable();
-            $table->string('gambar2',50)->nullable();
-            $table->string('gambar3',50)->nullable();
-            $table->string('gambar4',50)->nullable();
-            $table->string('gambar5',50)->nullable();
-            $table->string('gambar6',50)->nullable();
-            $table->string('gambar7',50)->nullable();
-            $table->string('gambar8',50)->nullable();
-            $table->string('gambar9',50)->nullable();
-            $table->string('gambar10',50)->nullable();
+            $table->text('gambar1')->nullable();
+            $table->text('gambar2')->nullable();
+            $table->text('gambar3')->nullable();
+            $table->text('gambar4')->nullable();
+            $table->text('gambar5')->nullable();
+            $table->text('gambar6')->nullable();
+            $table->text('gambar7')->nullable();
+            $table->text('gambar8')->nullable();
+            $table->text('gambar9')->nullable();
+            $table->text('gambar10')->nullable();
 
             $table->text('notepackaging')->nullable();
 
             // Layout
-            $table->string('aplikasi')->nullable();
-            $table->string('layout')->nullable();
-            $table->string('up')->nullable();
-            $table->string('sidea')->nullable();
-            $table->string('sideb')->nullable();
-            $table->string('upsidea')->nullable();
-            $table->string('upsideb')->nullable();
-            $table->string('ukrpresslayuot')->nullable();
+            $table->text('aplikasi')->nullable();
+            $table->text('layout')->nullable();
+            $table->text('up')->nullable();
+            $table->text('sidea')->nullable();
+            $table->text('sideb')->nullable();
+            $table->text('upsidea')->nullable();
+            $table->text('upsideb')->nullable();
+            $table->text('ukrpresslayuot')->nullable();
 
             // Material
-            $table->string('mat1')->nullable();
-            $table->string('mat2')->nullable();
-            $table->string('mat3')->nullable();
+            $table->text('mat1')->nullable();
+            $table->text('mat2')->nullable();
+            $table->text('mat3')->nullable();
 
-            $table->string('specsmat1')->nullable();
-            $table->string('specsmat2')->nullable();
-            $table->string('specsmat3')->nullable();
+            $table->text('specsmat1')->nullable();
+            $table->text('specsmat2')->nullable();
+            $table->text('specsmat3')->nullable();
 
             // Artwork
-            $table->string('as1')->nullable();
-            $table->string('as2')->nullable();
-            $table->string('as3')->nullable();
+            $table->text('as1')->nullable();
+            $table->text('as2')->nullable();
+            $table->text('as3')->nullable();
 
-            $table->string('pisau')->nullable();
-            $table->string('citto')->nullable();
-            $table->string('emboss')->nullable();
-            $table->string('hotprint')->nullable();
+            $table->text('pisau')->nullable();
+            $table->text('citto')->nullable();
+            $table->text('emboss')->nullable();
+            $table->text('hotprint')->nullable();
 
             $table->text('note1')->nullable();
             $table->text('note2')->nullable();
@@ -129,32 +129,32 @@ return new class extends Migration
             $table->date('tanggalterima')->nullable();
 
             // Tambahan
-            $table->string('filedesign')->nullable();
-            $table->string('filelayout')->nullable();
+            $table->text('filedesign')->nullable();
+            $table->text('filelayout')->nullable();
 
-            $table->string('statusdocket')->default('draft');
+            $table->text('statusdocket')->default('draft');
 
-            $table->string('a',20)->nullable();
-            $table->string('b',20)->nullable();
-            $table->string('c',20)->nullable();
-            $table->string('d',20)->nullable();
-            $table->string('e',20)->nullable();
-            $table->string('f',20)->nullable();
-            $table->string('g',20)->nullable();
-            $table->string('h',20)->nullable();
-            $table->string('i',20)->nullable();
-            $table->string('j',20)->nullable();
+            $table->text('a')->nullable();
+            $table->text('b')->nullable();
+            $table->text('c')->nullable();
+            $table->text('d')->nullable();
+            $table->text('e')->nullable();
+            $table->text('f')->nullable();
+            $table->text('g')->nullable();
+            $table->text('h')->nullable();
+            $table->text('i')->nullable();
+            $table->text('j')->nullable();
 
-            $table->string('statusa',20)->nullable();
-            $table->string('statusb',20)->nullable();
-            $table->string('statusc',20)->nullable();
-            $table->string('statusd',20)->nullable();
-            $table->string('statuse',20)->nullable();
-            $table->string('statusf',20)->nullable();
-            $table->string('statusg',20)->nullable();
-            $table->string('statush',20)->nullable();
-            $table->string('statusi',20)->nullable();
-            $table->string('statusj',20)->nullable();
+            $table->text('statusa')->nullable();
+            $table->text('statusb')->nullable();
+            $table->text('statusc')->nullable();
+            $table->text('statusd')->nullable();
+            $table->text('statuse')->nullable();
+            $table->text('statusf')->nullable();
+            $table->text('statusg')->nullable();
+            $table->text('statush')->nullable();
+            $table->text('statusi')->nullable();
+            $table->text('statusj')->nullable();
 
             $table->longText('feedback')->nullable();
             $table->longText('feedback_history')->nullable();
