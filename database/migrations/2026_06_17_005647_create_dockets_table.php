@@ -82,7 +82,7 @@ return new class extends Migration
             $table->text('sideb')->nullable();//71
             $table->text('upsidea')->nullable();//72
             $table->text('upsideb')->nullable();//73
-            $table->text('ukapresslayuot')->nullable();//74
+            $table->text('ukpresslayuot')->nullable();//74
             $table->text('mat1')->nullable();//75
             $table->text('mat2')->nullable();//76
             $table->text('mat3')->nullable();//77
@@ -103,8 +103,8 @@ return new class extends Migration
             $table->text('tanggalterima')->nullable();//92
             $table->text('filedesign')->nullable();//93
             $table->text('filelayout')->nullable();//94
-            $table->text('statuslayout')->default('draft');//95
-            $table->text('statusdocket')->default('draft');//96
+            $table->text('statuslayout')->nullable();//95
+            $table->text('statusdocket')->nullable();//96
             $table->text('a')->nullable();//97
             $table->text('b')->nullable();//98
             $table->text('c')->nullable();//99
