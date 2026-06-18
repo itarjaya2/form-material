@@ -137,9 +137,9 @@ return new class extends Migration
             $table->text('statusj')->nullable();//125
             $table->text('feedback')->nullable();//126
             $table->text('feedback_history')->nullable();//127
-            $table->unsignedBigInteger('edited_by')->nullable();//128
+            $table->text('edited_by')->nullable();//128
             $table->timestamp('edited_at')->nullable();//129
-            $table->timestamps(); //130-131 + = 132
+            $table->timestamps(); //130-131 + 1 = 132
 
             // Optional FK
             // $table->foreign('bom_id')->references('id')->on('boms');
