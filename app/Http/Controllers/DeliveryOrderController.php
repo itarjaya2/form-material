@@ -44,7 +44,7 @@ class DeliveryOrderController extends Controller
     $validated['barang'] = strtoupper($validated['barang']);
 
 
-    $validated['code'] = $this->generateCode($validated['ekspedisi']);
+    $validated['no_do'] = $this->generateCode($validated['ekspedisi']);
 
     DeliveryOrder::create($validated);
 
@@ -97,7 +97,7 @@ class DeliveryOrderController extends Controller
 
    if ($existing) {
 
-    $parts = explode('/', $existing->code);
+    $parts = explode('/', $existing->no_do);
     $number = explode('.', $parts[1]);
     $sequence = (int) $number[1];
 
@@ -109,7 +109,7 @@ class DeliveryOrderController extends Controller
 
         if ($last) {
 
-            $parts = explode('/', $last->code);
+            $parts = explode('/', $last->no_do);
             $number = explode('.', $parts[1]);
             $sequence = (int) $number[1] + 1;
 
@@ -120,7 +120,7 @@ class DeliveryOrderController extends Controller
         }
     }
 
-    $code = now()->format('m')
+    $no_do = now()->format('m')
             . '/' 
             . now()->format('d') 
             . '.'
@@ -128,7 +128,7 @@ class DeliveryOrderController extends Controller
             . '/'
             . now()->format('y');
 
-    return $code;
+    return $no_do;
     
     
 }

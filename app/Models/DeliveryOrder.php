@@ -8,7 +8,7 @@ class DeliveryOrder extends Model
 {
     //
     protected $fillable = [
-    'code',
+    'no_do',
     'ekspedisi',
     'no_polisi',
     'barang',

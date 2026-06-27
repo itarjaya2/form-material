@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('delivery_orders', function (Blueprint $table) {
         $table->id();
-        $table->text('code');
+        $table->text('no_do');
         $table->text('ekspedisi');
         $table->text('no_polisi');
         $table->text('barang');

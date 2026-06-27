@@ -37,7 +37,7 @@
                 <thead class="table-light">
                     <tr>
                         <th>No</th>
-                        <th>Code</th>
+                        <th>No DO</th>
                         <th>ekspedisi</th>
                         <th>no_polisi</th>
                         <th>barang</th>
@@ -49,7 +49,7 @@
                     @forelse ($deliveryOrder as $index => $item)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $item->code }}</td>
+                            <td>{{ $item->no_do }}</td>
                             <td>{{ $item->ekspedisi }}</td>
                             <td>{{ $item->no_polisi }}</td>
                             <td>{{ $item->barang }}</ttyd>
