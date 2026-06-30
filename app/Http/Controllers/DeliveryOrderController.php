@@ -126,7 +126,7 @@ class DeliveryOrderController extends Controller
             . '.'
             . str_pad($sequence, 4, '0', STR_PAD_LEFT)
             . '/'
-            . now()->year;
+            . now()->format('y');
 
     return $code;
     
