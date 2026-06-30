@@ -161,7 +161,7 @@ class CorrugatedController extends Controller
     // validasi material code
         $materialCode = strtoupper($data['material']) === 'CORRUGATED'
         ? 'COR'
-        : 'ERROR';
+        : 'NULL';
 
         // cek data yang ada
     $existing = Corrugated::where('specs',strtoupper($data['specs']))->first();

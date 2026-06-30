@@ -15,6 +15,8 @@
         <a class="nav-link" href="/bahan-penolong">Bahan penolong</a>
         <a class="nav-link" href="/bahan-tambahan">Bahan tambahan</a>
         <a class="nav-link" href="/corrugated">Corrugated</a>
+        <a class="nav-link" href="/delivery-order">delivery order</a>
+
         {{-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> --}}
       </div>
     </div>
