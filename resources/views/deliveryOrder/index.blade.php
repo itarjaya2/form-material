@@ -19,12 +19,12 @@
             <h3 class="mb-0">Delivery Order</h3>
 
         <div>
-            <button type="button"
+            {{-- <button type="button"
                 class="btn btn-success"
                 data-bs-toggle="modal"
                 data-bs-target="#importModal">
                 Import Excel
-            </button>
+            </button> --}}
     
             <a href="{{ route('delivery-order.create') }}" class="btn btn-primary">
                 Tambah Data
@@ -42,7 +42,7 @@
                         <th>no_polisi</th>
                         <th>barang</th>
                         <th>catatan</th>
-                        <th width="150">Aksi</th>
+                        {{-- <th width="150">Aksi</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -53,11 +53,12 @@
                             <td>{{ $item->ekspedisi }}</td>
                             <td>{{ $item->no_polisi }}</td>
                             <td>{{ $item->barang }}</ttyd>
-                            <td>
-                                {{-- <a href="{{ route('kertas.edit', $item->id) }}"
+                            <td>{{ $item->catatan }}</ttyd>
+                            {{-- <td>
+                                <a href="{{ route('kertas.edit', $item->id) }}"
                                    class="btn btn-warning btn-sm">
                                     Edit
-                                </a> --}}
+                                </a>
 
                                 <form action="{{ route('delivery-order.destroy', $item->id) }}"
                                       method="POST"
@@ -66,12 +67,12 @@
                                     @method('DELETE')
 
                                     <button type="submit"
-                                            class="btn btn-danger btn-sm"
+                                            class="btn btn-danger btn-sm w-100"
                                             onclick="return confirm('Yakin hapus data?')">
                                         Hapus
                                     </button>
                                 </form>
-                            </td>
+                            </td> --}}
                         </tr>
                     @empty
                         <tr>
